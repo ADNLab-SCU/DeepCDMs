@@ -1,3 +1,56 @@
+We predict the electrospray ionization tandem mass spectrum of Chemically Derived Molecules (CDMs) using deep learning, named as DeepCDM. Rather than developing a new predicting tool from scratch, DeepCDM focuses on re-training existing algorisms using a small set of experimentally obtained CDM spectra via transfer learning. The performance is evaluated by the weighted cosine similarity (WCS) between experimental spectra and predicted spectra. 
+
 This Code Package is Supplementary Information for the article "Deep learning enables high-quality MS/MS spectrum prediction for chemically derived molecules"
 
-3_spectra_matching.py and Ref Codes are reworked form the reference of "Jennifer N. Wei, David Belanger, Ryan P. Adams, and D. Sculley. Rapid Prediction of Electron–Ionization Mass Spectrometry Using Neural Networks. ACS Central Science 2019 5 (4), 700-708 DOI: 10.1021/acscentsci.9b00085"
+## Required Packages:
+Python 3.6, RDKit, Tensorflow=1.13.2 is used for model training. 
+
+## Model Training:
+Ref codes from "Jennifer N. Wei, David Belanger, Ryan P. Adams, and D. Sculley. Rapid Prediction of Electron–Ionization Mass Spectrometry Using Neural Networks. ACS Central Science 2019 5 (4), 700-708 DOI: 10.1021/acscentsci.9b00085" are modified for model re-training. `molecule_estimator_transfer.py` and `molecule_predictors_transfer.py` are used for fine tuning. 
+
+### 1.	Training, validation and test data split:
+`make_train_test_split.py` is used to randomly split datasets for model re-training and fine-tuning.
+
+```
+python make_train_test_split.py \
+--main_sdf_name=training_data/training_data.sdf \
+--replicates_sdf_name=training_data/training_data_replicate.sdf \
+--output_master_dir=training_data/spectra_tf_records
+```
+
+### 2.	Model pre-training:
+The MoNA dataset is used to re-train the architecture of NEIMS by `molecule_estimator.py` to establish ESI-MLP.
+```
+python molecule_estimator.py \
+--dataset_config_file=training_data /MoNA/spectra_tf_records/query_replicates_val_predicted_replicates_val.json \
+--train_steps=1000 \
+--model_dir=models/pre_training_model \
+--alsologtostderr
+```
+
+### 3.	Model fine tuning:
+ESI-MLP is fine-tuned by `molecule_estimator_transfer.py` using the dansylated training set to make it specialized for dansylated molecule (Dns-MS). The training set can be changed to spectra with different derivatizations for variable CDM-specific models.
+```
+python molecule_estimator_transfer.py \
+--dataset_config_file=training_data /dansylation/spectra_tf_records/query_replicates_val_predicted_replicates_val.json \
+--train_steps=1000 \
+--model_dir=models/Dns-MS \
+-- warm_start_dir= models/pre_training_model \
+--alsologtostderr
+```
+### 4.	Spectra prediction:
+The CDM-specific model, such as Dns-MS, predicts spectra for CDMs using `make_spectra_prediction.py`.
+```
+python make_spectra_prediction.py \
+--input_file=examples/emample_molecules.sdf \
+--output_file=examples/emample_molecules_pred.sdf \
+--weights_dir=model/Dns-MS
+```
+## Library Construction:
+`1_dansylation_filtering.py` is used to extract molecules contains 14 chemical elements and whose exact mass are ≤ 1,000 Da.
+
+`2_SMART_reaction.py` is used for virtual dansylation reaction.  
+## Spectra Matching:
+`3_spectra_matching.py` is used for DnsBank spectra matching.
+
+`4_sort_match_res.py` is used to sort molecule annotations according to spectra similarity. 
