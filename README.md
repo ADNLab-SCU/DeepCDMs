@@ -5,7 +5,7 @@ This Code Package is Supplementary Information for the article "Deep learning en
 ## Required Packages:
 Python 3.6, RDKit, Tensorflow=1.13.2 is used for model training. 
 
-## Model Training:
+## DeepCDM
 Ref codes from "Jennifer N. Wei, David Belanger, Ryan P. Adams, and D. Sculley. Rapid Prediction of Electron–Ionization Mass Spectrometry Using Neural Networks. ACS Central Science 2019 5 (4), 700-708 DOI: 10.1021/acscentsci.9b00085" are modified for model re-training. `molecule_estimator_transfer.py` and `molecule_predictors_transfer.py` are used for fine tuning. 
 
 ### 1.	Training, validation and test data split:
