@@ -374,10 +374,10 @@ class MLPSpectraPrediction(MassSpectraPrediction):
   """Prediction with a multi-layer perceptron."""
 
   def _set_model_specific_hparams(self, hparams):
-    hparams.add_hparam('num_hidden_units', 2000)
+    hparams.add_hparam('num_hidden_units', 500)
     hparams.add_hparam('hidden_layer_activation', 'relu')
     hparams.add_hparam('dropout_rate', 0.25)
-    hparams.add_hparam('num_hidden_layers', 1)
+    hparams.add_hparam('num_hidden_layers', 3)
     hparams.add_hparam('use_counting_fp', True)
     hparams.add_hparam('fp_length', 4096)
     hparams.add_hparam('radius', 2)
