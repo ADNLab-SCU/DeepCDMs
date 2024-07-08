@@ -11,20 +11,29 @@ Ref codes from "Jennifer N. Wei, David Belanger, Ryan P. Adams, and D. Sculley. 
 ### 1.	Training, validation and test data split:
 `make_train_test_split.py` is used to randomly split datasets for model re-training and fine-tuning.
 
+#### 1)	Data split for model training:
 ```
 python make_train_test_split.py \
---main_sdf_name=training_data/training_data.sdf \
---replicates_sdf_name=training_data/training_data_replicate.sdf \
---output_master_dir=training_data/spectra_tf_records
+--main_sdf_name=test_data/merged_MoNA_ESI-MSMS_spectra.sdf \
+--replicates_sdf_name=test_data/replicate_from_mona.sdf \
+--output_master_dir=tmp/pretrain/spectra_tf_records
+```
+
+#### 2)	Data split for fine-tuning:
+```
+python make_train_test_split.py \
+--main_sdf_name=test_data/fine_tuning_example.sdf \
+--replicates_sdf_name=test_data/replicate_from_dansylation_example.sdf \
+--output_master_dir=tmp/finetuning/spectra_tf_records
 ```
 
 ### 2.	Model pre-training:
 The MoNA dataset is used to re-train the architecture of NEIMS by `molecule_estimator.py` to establish ESI-MLP.
 ```
 python molecule_estimator.py \
---dataset_config_file=training_data /MoNA/spectra_tf_records/query_replicates_val_predicted_replicates_val.json \
+--dataset_config_file=tmp/pretrain/spectra_tf_records/query_replicates_val_predicted_replicates_val.json \
 --train_steps=1000 \
---model_dir=models/pre_training_model \
+--model_dir=models/pre_train \
 --alsologtostderr
 ```
 
@@ -32,25 +41,34 @@ python molecule_estimator.py \
 ESI-MLP is fine-tuned by `molecule_estimator_transfer.py` using the dansylated training set to make it specialized for dansylated molecule (Dns-MS). The training set can be changed to spectra with different derivatizations for variable CDM-specific models.
 ```
 python molecule_estimator_transfer.py \
---dataset_config_file=training_data /dansylation/spectra_tf_records/query_replicates_val_predicted_replicates_val.json \
+--dataset_config_file=tmp/finetuning/spectra_tf_records/query_replicates_val_predicted_replicates_val.json \
 --train_steps=1000 \
---model_dir=models/Dns-MS \
--- warm_start_dir= models/pre_training_model \
+--model_dir=models/fine_tuning \
+-- warm_start_dir=models/pre_train \
 --alsologtostderr
 ```
+
 ### 4.	Spectra prediction:
 The CDM-specific model, such as Dns-MS, predicts spectra for CDMs using `make_spectra_prediction.py`.
 ```
 python make_spectra_prediction.py \
 --input_file=examples/emample_molecules.sdf \
 --output_file=examples/emample_molecules_pred.sdf \
---weights_dir=model/Dns-MS
+--weights_dir=models/finetuning
 ```
+
 ## Library Construction:
 `1_dansylation_filtering.py` is used to extract molecules contains 14 chemical elements and whose exact mass are ≤ 1,000 Da.
 
 `2_SMART_reaction.py` is used for virtual dansylation reaction.  
+
 ## Spectra Matching:
 `3_spectra_matching.py` is used for DnsBank spectra matching.
 
 `4_sort_match_res.py` is used to sort molecule annotations according to spectra similarity. 
+
+## Datasets:
+`merged_MoNA_ESI-MSMS_spectra.sdf` is used for model pre-training, `replicate_from_mona.sdf` is used for validation in pre-training.
+
+`fine_tuning_example.sdf` is used for model fine-tuning, `replicate_from_dansylation_example.sdf` is used for validation in fine-tuning.
+
