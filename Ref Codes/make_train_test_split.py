@@ -84,7 +84,7 @@ flags.DEFINE_integer('mainlib_maximum_num_molecules_to_use', None,
 flags.DEFINE_integer('replicates_maximum_num_molecules_to_use', None,
                      'specify how many total samples to use for parsing')
 flags.DEFINE_list(
-    'replicates_train_val_test_fractions', '0.0,0.5,0.5',
+    'replicates_train_val_test_fractions', '0.0,1.0,0.0',
     'specify fraction of replicates molecules to use for'
     ' for the three replicates sample files.')
 flags.DEFINE_enum(
