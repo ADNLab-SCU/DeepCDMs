@@ -38,7 +38,7 @@ python molecule_estimator.py \
 ```
 
 ### 3.	Model fine tuning:
-ESI-MLP is fine-tuned by `molecule_estimator_transfer.py` using the dansylated training set to make it specialized for dansylated molecule (Dns-MS). The training set can be changed to spectra with different derivatizations for variable CDM-specific models.
+ESI-MLP is fine-tuned by `molecule_estimator_transfer.py` using the dansylated training set to make it specialized for dansylated molecule (Dns-MS). 
 ```
 python molecule_estimator_transfer.py \
 --dataset_config_file=tmp/finetuning/spectra_tf_records/query_replicates_val_predicted_replicates_val.json \
@@ -70,5 +70,5 @@ python make_spectra_prediction.py \
 ## Datasets:
 `merged_MoNA_ESI-MSMS_spectra.sdf` is used for model pre-training, `replicate_from_mona.sdf` is used for validation in pre-training.
 
-`fine_tuning_example.sdf` is used for model fine-tuning, `replicate_from_dansylation_example.sdf` is used for validation in fine-tuning.
+`fine_tuning_example.sdf` is a demo training set used for model fine-tuning, while `replicate_from_dansylation_example.sdf` is a demo for validation. Larger training set is recommended for better performance. Moreover, the training set for fine-tuning can be changed for variable CDMs.
 
