@@ -8,6 +8,11 @@ Python 3.6, RDKit, Tensorflow=1.13.2 is used for model training.
 ## DeepCDM
 Ref codes from "Jennifer N. Wei, David Belanger, Ryan P. Adams, and D. Sculley. Rapid Prediction of Electron–Ionization Mass Spectrometry Using Neural Networks. ACS Central Science 2019 5 (4), 700-708 DOI: 10.1021/acscentsci.9b00085" are modified for model re-training. `molecule_estimator_transfer.py` and `molecule_predictors_transfer.py` are used for fine tuning. 
 
+Folder “Ref Codes” contains the original codes of NEIMS. 
+
+Folder “Tuning” contains codes modified from NEIMS and codes for transfer learning. 
+
+
 ### 1.	Training, validation and test data split:
 `make_train_test_split.py` is used to randomly split datasets for model re-training and fine-tuning.
 
