@@ -6,9 +6,9 @@ This Code Package is Supplementary Information for the article "Deep learning en
 Python 3.6, RDKit, Tensorflow=1.13.2 is used for model training. 
 
 ## Folders:
-Folder “Ref Codes” contains the original codes of NEIMS. 
+“Ref Codes” contains the original codes of NEIMS. 
 
-Folder “Tuning” contains codes modified from NEIMS and codes for transfer learning. 
+“Tuning” contains codes modified from NEIMS and codes for transfer learning. 
 
 “SI Codes” contains codes for library construction and spectra matching.
 
