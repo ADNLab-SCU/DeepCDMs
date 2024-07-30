@@ -5,10 +5,7 @@ This Code Package is Supplementary Information for the article "Deep learning en
 ## Required Packages:
 Python 3.6, RDKit, Tensorflow=1.13.2 is used for model training. 
 
-## DeepCDM:
-Ref codes from "Jennifer N. Wei, David Belanger, Ryan P. Adams, and D. Sculley. Rapid Prediction of Electron–Ionization Mass Spectrometry Using Neural Networks. ACS Central Science 2019 5 (4), 700-708 DOI: 10.1021/acscentsci.9b00085" are modified for model re-training. `molecule_estimator_transfer.py` and `molecule_predictors_transfer.py` are used for fine tuning. 
-
-### Folders:
+## Folders:
 Folder “Ref Codes” contains the original codes of NEIMS. 
 
 Folder “Tuning” contains codes modified from NEIMS and codes for transfer learning. 
@@ -23,6 +20,9 @@ Folder “Tuning” contains codes modified from NEIMS and codes for transfer le
 
 `fine_tuning_example.sdf` is a demo training set used for model fine-tuning, while `replicate_from_dansylation_example.sdf` is a demo for validation. Larger training set is recommended for better performance. Moreover, the training set for fine-tuning can be changed for variable CDMs.
 
+
+## DeepCDM:
+Ref codes from "Jennifer N. Wei, David Belanger, Ryan P. Adams, and D. Sculley. Rapid Prediction of Electron–Ionization Mass Spectrometry Using Neural Networks. ACS Central Science 2019 5 (4), 700-708 DOI: 10.1021/acscentsci.9b00085" are modified for model re-training. `molecule_estimator_transfer.py` and `molecule_predictors_transfer.py` are used for fine tuning. 
 
 ### 1.	Training, validation and test data split:
 `make_train_test_split.py` is used to randomly split datasets for model re-training and fine-tuning.
