@@ -13,6 +13,16 @@ Folder “Ref Codes” contains the original codes of NEIMS.
 
 Folder “Tuning” contains codes modified from NEIMS and codes for transfer learning. 
 
+“SI Codes” contains codes for library construction and spectra matching.
+
+“Example” contains examples of molecular structural information for spectrum prediction.
+
+“Datasets” contains example datasets for model pre-training, fine-tuning and validation. 
+
+`merged_MoNA_ESI-MSMS_spectra.sdf` is used for model pre-training, `replicate_from_mona.sdf` is used for validation in pre-training.
+
+`fine_tuning_example.sdf` is a demo training set used for model fine-tuning, while `replicate_from_dansylation_example.sdf` is a demo for validation. Larger training set is recommended for better performance. Moreover, the training set for fine-tuning can be changed for variable CDMs.
+
 
 ### 1.	Training, validation and test data split:
 `make_train_test_split.py` is used to randomly split datasets for model re-training and fine-tuning.
@@ -72,9 +82,3 @@ python make_spectra_prediction.py \
 `3_spectra_matching.py` is used for DnsBank spectra matching.
 
 `4_sort_match_res.py` is used to sort molecule annotations according to spectra similarity. 
-
-## Datasets:
-`merged_MoNA_ESI-MSMS_spectra.sdf` is used for model pre-training, `replicate_from_mona.sdf` is used for validation in pre-training.
-
-`fine_tuning_example.sdf` is a demo training set used for model fine-tuning, while `replicate_from_dansylation_example.sdf` is a demo for validation. Larger training set is recommended for better performance. Moreover, the training set for fine-tuning can be changed for variable CDMs.
-
